@@ -21,7 +21,32 @@ const UserRef = new mongoose.Schema({
     lastName: {
         type: String,
         required: [true, "Please provide lastName"],
-    }
+    },
+    
+    brokers: [{
+        name: {
+            type: String,
+            required: [true, "Please provide name"],
+        },
+        amtWithdraw: {
+            type: Number,
+        },
+        amtDeposit: {
+            type: Number,
+            required: [true, "Please provide deposit amount"],
+        },
+        selectedDefault:{
+            type: Boolean
+        }
+    }],
+
+    tradeList: [{
+        trade:{
+            type: mongoose.SchemaTypes.Mixed,
+        }
+    }],
+
+   
 
 });
 
