@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const { type } = require("os");
 
 const UserRef = new mongoose.Schema({
-    
+
     email: {
         type: String,
         required: [true, "Please provide email"],
@@ -23,11 +23,14 @@ const UserRef = new mongoose.Schema({
         type: Number,
         default: Date.now()
     },
+    defaultBrokerId: {
+        type: String,
+    },
 
     brokers: [{
-        name: {
+        brokerName: {
             type: String,
-            required: [true, "Please provide name"],
+            required: [true, "Please provide brokerName"],
         },
         amtWithdraw: {
             type: Number,
@@ -35,19 +38,62 @@ const UserRef = new mongoose.Schema({
         amtDeposit: {
             type: Number,
             required: [true, "Please provide deposit amount"],
+        }
+
+    }],
+
+    trades: [{
+
+        date: {
+            type: Number,
+            default: null
         },
-        selectedDefault:{
-            type: Boolean
+        tradeName: {
+            type: String,
+            default: null
+        },
+        action: {
+            type: String,
+            default: null
+        },
+        segment: {
+            type: String,
+            default: null
+        },
+        tradeType: {
+            type: String,
+            default: null
+        },
+        chartTimeFrame: {
+            type: String,
+            default: null
+        },
+        mindSetBeforeTrade: {
+            type: String,
+            default: null
+        },
+        quantity: {
+            type: Number,
+            default: null
+        },
+        enrtyPrice: {
+            type: Number,
+            default: null
+        },
+        exitPrice: {
+            type: Number,
+            default: null
+        },
+        entryNote: {
+            type: String,
+            default: null
+        },
+        exitNote: {
+            type: String,
+            default: null
         }
-    }],
 
-    tradeList: [{
-        trade:{
-            type: mongoose.SchemaTypes.Mixed,
-        }
     }],
-
-   
 
 });
 
