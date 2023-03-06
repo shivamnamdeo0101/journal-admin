@@ -5,10 +5,7 @@ const jwt = require("jsonwebtoken");
 const { type } = require("os");
 
 const UserRef = new mongoose.Schema({
-    timestamp: {
-        type: Number,
-        default: Date.now()
-    },
+    
     email: {
         type: String,
         required: [true, "Please provide email"],
@@ -22,7 +19,11 @@ const UserRef = new mongoose.Schema({
         type: String,
         required: [true, "Please provide lastName"],
     },
-    
+    joinedOn: {
+        type: Number,
+        default: Date.now()
+    },
+
     brokers: [{
         name: {
             type: String,

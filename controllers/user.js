@@ -1,9 +1,13 @@
 const User = require("../models/User");
 
+
+
+const userFields = ["_id","email","firstName","lastName"]
+
+
 exports.userProfile = async (req, res, next) => {
-    const {userId } = req.params;
     try {
-        let user = await User.findById(req.params.userId)
+        let user = await User.findById(req.params.userId).select(userFields)
         sendToken(user, 200, res);
     } catch (err) {
         next(err);
