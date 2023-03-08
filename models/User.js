@@ -44,9 +44,21 @@ const UserRef = new mongoose.Schema({
 
     trades: [{
 
+        brokerId: {
+            type: String,
+            default: null
+        },
         date: {
             type: Number,
             default: null
+        },
+        addOn: {
+            type: Number,
+            default: Date.now()
+        },
+        updateOn: {
+            type: Number,
+            default: Date.now()
         },
         tradeName: {
             type: String,
@@ -72,11 +84,19 @@ const UserRef = new mongoose.Schema({
             type: String,
             default: null
         },
+        mindSetAfterTrade: {
+            type: String,
+            default: null
+        },
+        session: {
+            type: String,
+            default: null
+        },
         quantity: {
             type: Number,
             default: null
         },
-        enrtyPrice: {
+        entryPrice: {
             type: Number,
             default: null
         },
@@ -107,10 +127,6 @@ UserRef.methods.getSignedJwtToken = function () {
         expiresIn: process.env.JWT_EXPIRE,
     });
 };
-
-
-
-
 
 const User = mongoose.model("User", UserRef);
 
