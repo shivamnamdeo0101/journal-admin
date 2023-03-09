@@ -23,7 +23,7 @@ const sendToken = (user, statusCode, res) => {
 
 
 
-exports.getAllUserBroker= async (req, res, next) => {
+exports.getAllUserBroker = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.userId);
         if (!user) {

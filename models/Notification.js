@@ -9,6 +9,14 @@ const NotificationRef = new mongoose.Schema({
         type: String,
         required: [true, "Please provide title"],
     },
+    linkUrl: {
+        type: String,
+        required: [true, "Please provide linkUrl"],
+    },
+    linkTitle: {
+        type: String,
+        required: [true, "Please provide linkTitle"],
+    },
     timestamp: {
         type: Number,
         default: Date.now()
