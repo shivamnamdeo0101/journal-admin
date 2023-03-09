@@ -49,7 +49,7 @@ const UserRef = new mongoose.Schema({
             default: null
         },
         date: {
-            type: Number,
+            type: String,
             default: null
         },
         addOn: {
