@@ -104,6 +104,14 @@ const UserRef = new mongoose.Schema({
             type: Number,
             default: null
         },
+        stopLoss: {
+            type: Number,
+            default: null
+        },
+        targetPoint: {
+            type: Number,
+            default: null
+        },
         entryNote: {
             type: String,
             default: null
