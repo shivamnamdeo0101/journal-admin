@@ -119,7 +119,8 @@ exports.deleteBroker = async (req, res, next) => {
 
 
 exports.getAllUserTrade = async (req, res, next) => {
-    try {
+    try { 
+
         const user = await User.findById(req.params.userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
