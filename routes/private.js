@@ -22,6 +22,7 @@ router.route("/trades").post(protect,addTrade);
 router.route("/trades").put(protect,updateTrade);
 router.route("/trades").delete(protect,deleteTrade);
 router.route("/trades/:userId").get(protect,getAllUserTrade);
+router.route("/trades-filter").post(protect,getAllUserTrade);
 
 
 //Notification

@@ -120,43 +120,84 @@ exports.deleteBroker = async (req, res, next) => {
 
 exports.getAllUserTrade = async (req, res, next) => {
     try {
+        let list;
+        const filterType = req.body.filterType
+        const user = await User.findById(req.body.userId);
+        const tempDate = new Date();
 
-        const data = [
-            { name: 'Alice', date: '2023-03-01T10:30:00.000Z' },
-            { name: 'Bob', date: '2023-03-02T12:00:00.000Z' },
-            { name: 'Charlie', date: '2023-03-03T15:30:00.000Z' },
-            { name: 'Dave', date: '2023-03-04T09:00:00.000Z' },
-            { name: 'Alice', date: '2023-03-05T10:30:00.000Z' },
-            { name: 'Bob', date: '2023-03-06T12:00:00.000Z' },
-            { name: 'Charlie', date: '2023-03-07T15:30:00.000Z' },
-            { name: 'Dave', date: '2023-03-08T08:00:00.000Z' },
-            { name: 'Bob', date: '2023-03-09T12:00:00.000Z' },
-            { name: 'Charlie', date: '2023-03-10T15:30:00.000Z' }
-        ];
-
-        //   const startDate = new Date();
-        //   startDate.setDate(startDate.getDate() - 5); // set the start date to 7 days ago
-
-        //   const filteredData = data.filter(item => {
-        //     const date = new Date(item.date);
-        //     return date >= startDate;
-        //   });
-
-        //   console.log(startDate)
-
-        // const startDate = new Date('2023-03-03T00:00:00.000Z'); // set the start date
-        // const endDate = new Date('2023-03-08T23:59:59.999Z'); // set the end date
-
-        // const filteredData = data.filter(item => {
-        //     const date = new Date(item.date);
-        //     return date >= startDate && date <= endDate; // check if the date is within the range
-        // });
-
-        const user = await User.findById(req.params.userId);
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
+        if (filterType === "a") {
+            return res.status(200).json({ length: user.trades.length, data: user.trades });
         }
-        res.status(200).json({ length: user.trades.length, data: user.trades });
+        if (filterType === "t") {
+            const today = new Date().toISOString().substr(0, 10); // get the current date in UTC format
+            list = user.trades.filter(item => {
+                const itemDate = new Date(item.date).toISOString().substr(0, 10); // convert the trade date to UTC format
+                return itemDate === today; // include trades that occurred on the current date
+            }) .sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA;
+              });;
+        }
+
+        if (filterType === "r") {
+
+            const startDate = new Date(req.body.startDate);
+            const endDate = new Date(req.body.endDate);
+
+            list =  user.trades.filter(item => {
+                const date = new Date(item.date);
+                return date >= startDate && date <= endDate;
+            }) .sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA;
+              });;
+            return res.status(200).json({ length: list.length, data: list });
+        }
+        if (filterType === "d") {
+
+            const filterDate = new Date(req.body.date);
+            list = user.trades.filter(item => {
+                const date = new Date(item.date);
+                return date.toDateString() === filterDate.toDateString();
+            }) .sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA;
+              });;
+            return res.status(200).json({ length: list.length, data: list });
+        }
+
+
+        if (filterType === "y") {
+            tempDate.setDate(tempDate.getDate() - 1); // set the start date to 1 days ago   
+        }
+        if (filterType === "7D") {
+            tempDate.setDate(tempDate.getDate() - 7); // set the start date to 7 days ago  
+        }
+        if (filterType === "1M") {
+            tempDate.setUTCMonth(tempDate.getUTCMonth() - 1); // set the start date to one month ago    
+        }
+        if (filterType === "3M") {
+            tempDate.setUTCMonth(tempDate.getUTCMonth() - 3); // set the start date to 3 month ago  
+        }
+        if (filterType === "6M") {
+            tempDate.setUTCMonth(tempDate.getUTCMonth() - 6); // set the start date to 6 month ago   
+        }
+        if (filterType === "1Y") {
+            tempDate.setUTCFullYear(tempDate.getUTCFullYear() - 1); // set the start date to one year ago    
+        }
+        list = user.trades.filter(item => {
+            const date = new Date(item.date);
+            return date >= tempDate;
+        }).sort((a, b) => {
+            const dateA = new Date(a.date);
+            const dateB = new Date(b.date);
+            return dateB - dateA;
+          });;
+        return res.status(200).json({ length: list.length, data: list });
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server error" });
