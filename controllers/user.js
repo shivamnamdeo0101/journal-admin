@@ -185,7 +185,7 @@ exports.addTrade = async (req, res, next) => {
 
 exports.updateTrade = async (req, res, next) => {
 
-    var brokerId = req.body.tradeId;
+    var tradeId = req.body.tradeId;
     var userId = new mongoose.Types.ObjectId(req.body.userId);
     const user = await User.findById(userId);
     if (!user) {
@@ -195,7 +195,7 @@ exports.updateTrade = async (req, res, next) => {
 
     let tradeList = user.trades;
 
-    const tradeIndex = brokerList.findIndex(
+    const tradeIndex = tradeList.findIndex(
         (t) => t._id == tradeId
     );
 
