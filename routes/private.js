@@ -1,4 +1,5 @@
 const express = require("express");
+const { getData } = require("../controllers/data");
 const { addNotification, getAllNotification } = require("../controllers/notification");
 const { userProfile, addBroker, updateBroker, setDefaultBroker, deleteBroker, addTrade, updateTrade, deleteTrade, getAllUserTrade, getAllUserBroker } = require("../controllers/user");
 const { protect } = require("../middleware/auth");
@@ -28,6 +29,10 @@ router.route("/trades-filter").post(protect,getAllUserTrade);
 //Notification
 router.route("/notifications").post(protect,addNotification);
 router.route("/notifications").get(protect,getAllNotification);
+
+
+//Data
+router.route("/data/:name").get(getData);
 
 
 module.exports = router;
